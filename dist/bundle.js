@@ -69,26 +69,30 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__crazy_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gameBoard_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ship_js__ = __webpack_require__(2);
 
 
 
-console.log(new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]("Battleship", 4));
+const bs = new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]("Battleship", 4);
+
+const gameBoard = new __WEBPACK_IMPORTED_MODULE_0__gameBoard_js__["a" /* GameBoard */](10);
+gameBoard.addShip({x:0,y:0}, "horizontal", bs);
+
+gameBoard.contents.forEach(function(content){
+  console.log(content.ship.name);
+  content.squares.forEach(function(square){
+    console.log(`${square.x}, ${square.y}`);
+  })
+});
+
+console.log(gameBoard);
+
+console.log(gameBoard.squareTaken({x:0,y:0}))
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export crazy */
-function crazy(){
-  return "whoa man";
-}
-
-
-/***/ }),
+/* 1 */,
 /* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -114,6 +118,103 @@ class Ship {
   }
 }
 
+
+
+
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameBoard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ship_js__ = __webpack_require__(2);
+
+
+class GameBoard {
+  constructor(size) {
+    this.contents = [];
+    this.size = size;
+    this.misses = [];
+  }
+
+  addShip(startPostion, orientation, ship){
+    let occupiedSquares = [];
+    let validPlacement = true;
+    let newSquare = {};
+    for(let i=0;i<ship.length;i++){
+      if (orientation == "horizontal"){
+        newSquare = {x:startPostion.x+i,y:startPostion.y};
+      } else if (orientation == "vertical"){
+        newSquare = {x:startPostion.x,y:startPostion.y+i};
+      }
+      if (!this.validSquare(newSquare)){
+        validPlacement = false;
+      }
+      occupiedSquares.push(newSquare);
+    }
+    if (validPlacement){
+      this.contents.push({squares: occupiedSquares, ship: ship});
+    }
+  }
+
+  squareTaken(square){
+    let taken = false;
+    this.contents.forEach(function(content){
+      content.squares.forEach(function(insideSquare){
+        if (insideSquare.x == square.x && insideSquare.y == square.y) {
+          taken = true;
+        }
+      })
+    })
+    return taken;
+  }
+
+  squareOutsideBoundary(square){
+    let outside = false;
+    if (square.x >= this.size) {
+      outside = true;
+    } else if (square.x < 0) {
+      outside = true;
+    } else if (square.y >= this.size) {
+      outside = true;
+    } else if (square.y < 0) {
+      outside = true;
+    }
+    return outside;
+  }
+
+  validSquare(square){
+    if (!this.squareOutsideBoundary(square) && !this.squareTaken(square)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  receiveAttack(square){
+    if (this.squareTaken(square)){
+      this.hitShipInSquare(square);
+    } else {
+      this.misses.push(square);
+    }
+  }
+
+  hitShipInSquare(square){
+    this.contents.forEach(function(content){
+      content.squares.forEach(function(insideSquare){
+        if (insideSquare.x == square.x && insideSquare.y == square.y) {
+          content.ship.hit()
+        }
+      })
+    })
+  }
+
+
+
+}
 
 
 
