@@ -6,26 +6,23 @@ const player1 = new Player("human");
 const player2 = new Player("computer");
 
 function initGame(){
+
   player1.gameBoard = new GameBoard(10);
   player2.gameBoard = new GameBoard(10);
   const battleship = new Ship('battleship', 4);
   const cruiser = new Ship('cruiser', 3);
   const destroyer = new Ship('destroyer', 3);
   const patroller = new Ship('patroller', 2);
+  const ships = [battleship,cruiser,destroyer,patroller];
 
-  player2.gameBoard.addShip({x:0,y:0}, "horizontal",battleship);
-  player2.gameBoard.addShip({x:3,y:3}, "vertical", cruiser);
-  player2.gameBoard.addShip({x:6,y:0}, "horizontal", destroyer);
-  player2.gameBoard.addShip({x:0,y:8}, "vertical", patroller);
+  player2.gameBoard.placeShipsRandomly(ships);
 
   player1.gameBoard.addShip({x:3,y:4}, "horizontal",battleship);
   player1.gameBoard.addShip({x:6,y:0}, "vertical", cruiser);
-  player1.gameBoard.addShip({x:0,y:9}, "horizontal", destroyer);
+  // player1.gameBoard.addShip({x:0,y:9}, "horizontal", destroyer);
   player1.gameBoard.addShip({x:5,y:6}, "vertical", patroller);
 
 }
-
-
 
 function drawPlayersBoard(gameBoard){
   const playerBoard = document.getElementById('playergrid')
@@ -94,6 +91,8 @@ function addAttackListener(cell, gameBoard){
       console.log("computer player all ships sunk");
     }
     computerAttack(player2, player1);
+    console.log(gameBoard.allShipsSunk());
+    console.log()
   })
 }
 
@@ -102,9 +101,11 @@ function computerAttack(computerPlayer, humanPlayer){
   addMisses('playergrid',humanPlayer.gameBoard);
   addHits('playergrid', humanPlayer.gameBoard);
   if (humanPlayer.gameBoard.allShipsSunk()){
-    return gameEnd("Computer Wins!");
     console.log("humanPlayer all ships sunk");
+    return gameEnd("Computer Wins!");
   }
+  console.log(humanPlayer.gameBoard.allShipsSunk());
+  console.log(humanPlayer.gameBoard);
 }
 
 function gameEnd(message){

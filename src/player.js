@@ -14,7 +14,6 @@ class Player {
   sendRandomAttack(anotherPlayer){
     let nonGuessed = anotherPlayer.gameBoard.generateNonGuessedSquares();
     let randomLegalSquare = nonGuessed[Math.floor(Math.random()*nonGuessed.length)];
-    console.log(randomLegalSquare)
     anotherPlayer.gameBoard.receiveAttack(randomLegalSquare);
   }
 

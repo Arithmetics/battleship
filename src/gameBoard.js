@@ -24,6 +24,7 @@ class GameBoard {
       occupiedSquares.push(newSquare);
     }
     if (validPlacement){
+      console.log(occupiedSquares);
       occupiedSquares.forEach(function(occupiedSquare){
         ship.inSquares.push(occupiedSquare);
       })
@@ -31,6 +32,29 @@ class GameBoard {
       return true;
     }
     return false;
+  }
+
+  placeShipsRandomly(shipsArr){
+    const ships = shipsArr;
+    const gameBoard = this;
+    const orientations = ["horizontal","vertical"];
+    const xLocations = [0,1,2,3,4,5,6,7,8];
+    const yLocations = [0,1,2,3,4,5,6,7,8];
+    ships.forEach(function(ship){
+      let added = false;
+      let randomOrientation = orientations[Math.floor(Math.random()*orientations.length)];
+      let randomXLocation = xLocations[Math.floor(Math.random()*xLocations.length)];
+      let randomYLocation = xLocations[Math.floor(Math.random()*yLocations.length)];
+      while (added == false){
+        if (gameBoard.addShip({x:randomXLocation,y:randomYLocation},randomOrientation,ship)){
+          added = true;
+        } else {
+            randomOrientation = orientations[Math.floor(Math.random()*orientations.length)];
+            randomXLocation = xLocations[Math.floor(Math.random()*xLocations.length)];
+            randomYLocation = yLocations[Math.floor(Math.random()*yLocations.length)];
+        }
+      }
+    })
   }
 
   squareTaken(square){

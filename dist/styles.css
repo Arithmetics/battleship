@@ -15,10 +15,12 @@
 
 .miss {
   background-color: #dfe200;
+  transition: background-color 0.5s linear;
 }
 
 .hit {
   background-color: #e24300;
+  transition: background-color 0.5s linear;
 }
 
 .ship {

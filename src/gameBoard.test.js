@@ -53,6 +53,20 @@ describe('ship placement', () => {
     expect(gameBoard.contents.length).toBe(1);
   })
 
+  it('places ships randomly', () => {
+    const gameBoard = new GameBoard(10);
+    const a = new Ship('battleship', 4);
+    const b = new Ship('battleship', 4);
+    const c = new Ship('cruiser', 3);
+    const d = new Ship('cruiser', 3);
+    const ships = [a,b,c,d];
+    expect(gameBoard.contents.length).toBe(0);
+    gameBoard.placeShipsRandomly(ships);
+    expect(gameBoard.contents.length).toBe(4);
+  })
+
+
+
 })
 
 describe('hits and misses', () => {
@@ -92,16 +106,31 @@ describe('hits and misses', () => {
 
   it("reports all ships sunk, when all ships have been sunk :) ", () => {
     const gameBoard = new GameBoard(10);
-    const destroyer = new Ship('destroyer', 3);
-    const patroller = new Ship('patroller', 2);
-    gameBoard.addShip({x:0,y:0}, "horizontal", destroyer);
-    gameBoard.addShip({x:0,y:2}, "vertical", patroller);
+    const b = new Ship('battleship', 4);
+    const c = new Ship('cruiser', 3);
+    const d = new Ship('destroyer', 3);
+    const a = new Ship('patroller', 2);
+    gameBoard.addShip({x:3,y:4}, "horizontal",b);
+    gameBoard.addShip({x:6,y:0}, "vertical", c);
+    gameBoard.addShip({x:0,y:9}, "horizontal", d);
+    gameBoard.addShip({x:5,y:6}, "vertical", a);
     expect(gameBoard.allShipsSunk()).toBe(false);
-    gameBoard.receiveAttack({x:0,y:0});
-    gameBoard.receiveAttack({x:1,y:0});
-    gameBoard.receiveAttack({x:2,y:0});
-    gameBoard.receiveAttack({x:0,y:2});
-    gameBoard.receiveAttack({x:0,y:3});
+    gameBoard.receiveAttack({x:3,y:4});
+    gameBoard.receiveAttack({x:4,y:4});
+    gameBoard.receiveAttack({x:5,y:4});
+    gameBoard.receiveAttack({x:6,y:4});
+
+    gameBoard.receiveAttack({x:6,y:0});
+    gameBoard.receiveAttack({x:6,y:1});
+    gameBoard.receiveAttack({x:6,y:2});
+
+    gameBoard.receiveAttack({x:0,y:9});
+    gameBoard.receiveAttack({x:1,y:9});
+    gameBoard.receiveAttack({x:2,y:9});
+
+    gameBoard.receiveAttack({x:5,y:6});
+    gameBoard.receiveAttack({x:5,y:7});
+
     expect(gameBoard.allShipsSunk()).toBe(true);
   })
 
