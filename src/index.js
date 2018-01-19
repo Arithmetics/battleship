@@ -9,10 +9,11 @@ function initGame(){
 
   player1.gameBoard = new GameBoard(10);
   player2.gameBoard = new GameBoard(10);
-  const battleship = new Ship('battleship', 4);
-  const cruiser = new Ship('cruiser', 3);
-  const destroyer = new Ship('destroyer', 3);
-  const patroller = new Ship('patroller', 2);
+
+  const playerShips = [new Ship('battleship', 4),
+                 new Ship('cruiser', 3),
+                 new Ship('destroyer', 3),
+                 new Ship('patroller', 2)];
 
   const computerShips = [new Ship('battleship', 4),
                  new Ship('cruiser', 3),
@@ -21,10 +22,7 @@ function initGame(){
 
   player2.gameBoard.placeShipsRandomly(computerShips);
 
-  player1.gameBoard.addShip({x:0,y:0}, "horizontal",battleship);
-  player1.gameBoard.addShip({x:6,y:0}, "vertical", cruiser);
-  player1.gameBoard.addShip({x:0,y:9}, "horizontal", destroyer);
-  player1.gameBoard.addShip({x:5,y:6}, "vertical", patroller);
+  player1.gameBoard.placeShipsRandomly(playerShips);
 
 }
 

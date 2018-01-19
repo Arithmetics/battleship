@@ -115,10 +115,11 @@ function initGame(){
 
   player1.gameBoard = new __WEBPACK_IMPORTED_MODULE_2__gameBoard_js__["a" /* GameBoard */](10);
   player2.gameBoard = new __WEBPACK_IMPORTED_MODULE_2__gameBoard_js__["a" /* GameBoard */](10);
-  const battleship = new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('battleship', 4);
-  const cruiser = new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('cruiser', 3);
-  const destroyer = new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('destroyer', 3);
-  const patroller = new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('patroller', 2);
+
+  const playerShips = [new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('battleship', 4),
+                 new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('cruiser', 3),
+                 new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('destroyer', 3),
+                 new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('patroller', 2)];
 
   const computerShips = [new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('battleship', 4),
                  new __WEBPACK_IMPORTED_MODULE_1__ship_js__["a" /* Ship */]('cruiser', 3),
@@ -127,10 +128,7 @@ function initGame(){
 
   player2.gameBoard.placeShipsRandomly(computerShips);
 
-  player1.gameBoard.addShip({x:0,y:0}, "horizontal",battleship);
-  player1.gameBoard.addShip({x:6,y:0}, "vertical", cruiser);
-  player1.gameBoard.addShip({x:0,y:9}, "horizontal", destroyer);
-  player1.gameBoard.addShip({x:5,y:6}, "vertical", patroller);
+  player1.gameBoard.placeShipsRandomly(playerShips);
 
 }
 
