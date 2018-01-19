@@ -24,7 +24,6 @@ class GameBoard {
       occupiedSquares.push(newSquare);
     }
     if (validPlacement){
-      console.log(occupiedSquares);
       occupiedSquares.forEach(function(occupiedSquare){
         ship.inSquares.push(occupiedSquare);
       })

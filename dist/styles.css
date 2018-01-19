@@ -1,6 +1,6 @@
 .row {
   display: block;
-  margin: none;
+  margin: -1px;
   height: 31px;
   width: 350px;
 }
@@ -10,7 +10,19 @@
   background-color: #4842f4;
   width: 30px;
   height: 30px;
-  margin: 1px;
+  border: 1px solid white;
+}
+
+.verticalship {
+  background-color: #9b9ba3;
+  border-top:1px solid #9b9ba3;
+  border-bottom:1px solid #9b9ba3;
+}
+
+.horizontalship {
+  background-color: #9b9ba3;
+  border-left:1px solid #9b9ba3;
+  border-right:1px solid #9b9ba3;
 }
 
 .miss {
@@ -21,8 +33,4 @@
 .hit {
   background-color: #e24300;
   transition: background-color 0.5s linear;
-}
-
-.ship {
-  background-color: #9b9ba3;
 }
