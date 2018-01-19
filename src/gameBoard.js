@@ -5,6 +5,7 @@ class GameBoard {
     this.contents = [];
     this.size = size;
     this.misses = [];
+    this.hits = [];
   }
 
   addShip(startPostion, orientation, ship){
@@ -23,8 +24,13 @@ class GameBoard {
       occupiedSquares.push(newSquare);
     }
     if (validPlacement){
+      occupiedSquares.forEach(function(occupiedSquare){
+        ship.inSquares.push(occupiedSquare);
+      })
       this.contents.push({squares: occupiedSquares, ship: ship});
+      return true;
     }
+    return false;
   }
 
   squareTaken(square){
@@ -64,6 +70,7 @@ class GameBoard {
   receiveAttack(square){
     if (this.squareTaken(square)){
       this.hitShipInSquare(square);
+      this.hits.push(square);
     } else {
       this.misses.push(square);
     }
@@ -73,12 +80,40 @@ class GameBoard {
     this.contents.forEach(function(content){
       content.squares.forEach(function(insideSquare){
         if (insideSquare.x == square.x && insideSquare.y == square.y) {
-          content.ship.hit()
+          for(let i=0;i<content.ship.hitBox.length;i++){
+            if(content.ship.inSquares[i].x == insideSquare.x &&
+               content.ship.inSquares[i].y == insideSquare.y) {
+                 content.ship.hitBox[i] = true;
+               }
+          }
         }
       })
     })
   }
 
+  allShipsSunk(){
+    let allSunk = true;
+    this.contents.forEach(function(content){
+      if(!content.ship.isSunk()){
+        allSunk = false;
+      }
+    })
+    return allSunk;
+  }
+
+  generateNonGuessedSquares(){
+    let nonGuessed = [];
+    for(let i=0;i<this.size;i++){
+      for(let j=0;j<this.size;j++){
+        let potentialSquare = {x:i,y:j};
+        if(!this.hits.find(function(square){return (square.x == i && square.y == j);}) &&
+         !this.misses.find(function(square){return (square.x == i && square.y == j);})){
+          nonGuessed.push(potentialSquare);
+        }
+      }
+    }
+    return nonGuessed;
+  }
 
 
 }

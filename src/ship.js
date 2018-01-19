@@ -7,6 +7,7 @@ class Ship {
       x.push(false);
     }
     this.hitBox = x;
+    this.inSquares = [];
   }
 
   hit(position) {
@@ -17,7 +18,6 @@ class Ship {
     return this.hitBox.every(val => {return val == true});
   }
 }
-
 
 
 
